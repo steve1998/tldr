@@ -27,3 +27,7 @@
 .font-really-small {
 	font-size: 15px;
 }
+
+.button-padd {
+    margin: 0.5em;
+}

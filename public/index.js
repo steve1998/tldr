@@ -10,6 +10,91 @@ $(document).ready(function(){
           var span = '<li>' + '<span>' + name + '</li>' + '</span>';
           $("#listKeywords").append(span);
         }
+
+        function highlightKeywords()
+        {
+          // this is the highlighting portion of the code 
+          var sentences = document.querySelector('#newText');
+          var keywords = document.querySelector('#keywords');
+          
+          keywords.addEventListener('click', function(event){
+        var target = event.target;
+          var text = sentences.textContent;
+          
+          var copyText = text;
+          var targetLength = target.textContent.length;
+          
+          var index = copyText.search('('+target.textContent+')');
+          
+          while (copyText.length != 0)
+          {
+            target = event.target;
+            index = copyText.search('('+target.textContent+')');
+            if (index == -1)
+            {
+              break;
+            }
+          
+            var startIndex = 0;
+            var endIndex = 0;
+            var numWhitespaceSeen = 0;
+          
+            // look backwards
+            for(let i = index - 1; i >= 0; i--)
+            {
+              if (copyText[i] == ' ')
+              {
+                numWhitespaceSeen++;
+              
+                if (numWhitespaceSeen == 3)
+                {
+                  startIndex = i + 1;
+                  break;
+                }
+              }
+            
+              if (copyText[i] == '.')
+              {
+                startIndex = i + 2;
+                break;
+              }
+            }
+          
+            numWhitespaceSeen = 0;
+          
+            // look forward
+            for(let j = index + targetLength; j < copyText.length; j++)
+            {
+              if (copyText[j] == ' ')
+              {
+                numWhitespaceSeen++;
+                if (numWhitespaceSeen == 3)
+                {
+                  endIndex = j;
+                  break;
+                }
+              }
+            
+              if (copyText[j] == '.')
+              {
+                endIndex = j;
+                break;
+              }
+            }
+          
+            //console.log("startIndex: ", startIndex);
+            //console.log("endIndex: ", endIndex);
+          
+            target = copyText.substring(startIndex, endIndex);
+            copyText = copyText.substring(endIndex + 1);
+            //console.log("target: ", target);
+          var regex = new RegExp('('+target+')', 'ig');
+          //console.log("regex: ", regex);
+          text = text.replace(regex, '<span class="highlight">$1</span>');
+          sentences.innerHTML = text;
+        }
+      }, false);
+        }
 		
         function startEntity() {
           gapi.client.init({
@@ -69,15 +154,7 @@ $(document).ready(function(){
                   typeToEntities.push(new Array(currentEntity));
                 }
              }
-             //console.log(typeToEntities);
-			/*
-			 // if there is already an existing list 
-             var answerSection = document.getElementById("answer");
-          	 while (answerSection.contains(document.getElementById("newList")))
-          	 {
-               answerSection.removeChild(document.getElementById("newList"));  // delete it
-          	 }
-			*/
+             
 			 // generating the list of key words
 			 var keywordsDiv = '<div class="column is-one-third" id="keywords">' + '<ul id="listKeywords">' + '</ul>' + '</div>';
 			 $("#answer").append(keywordsDiv);
@@ -100,96 +177,32 @@ $(document).ready(function(){
         else {
             // creates static container for sentence
             var container = '<div class="column is-two-thirds" id="new">' +
-                                '<h1 class="didact has-text-centered title has-text-weight-light" id="newText">' +
+                                '<h1 class="didact has-text-left title has-text-weight-light" id="newText">' +
                                     txtQuery +
-                                '</h1>' +
+                                '</h1>' + '<button id="emo" class="didact button button-padd is-pulled-right">Emotional Value</button>' + '<button id="keyw" class="didact button-padd button is-pulled-right">Keywords</button>'
                             '</div>';  
-
+            
             // create for each lists here later
             $("#answer").append(container); // inserts container
+
+            var emoButton = document.querySelector('#emo');
+            var keywordButton = document.querySelector('#keyw');
+            
+            emoButton.addEventListener('click', function(event) {
+              //console.log("emoButton has been clicked");
+			  gapi.load('client', startSentiment);
+            }, false);
+            
+            keywordButton.addEventListener('click', function(event) {
+              var sentences = document.querySelector('#newText');
+              sentences.innerHTML = txtQuery;
+            
+              highlightKeywords();
+            }, false);
         } // create new element
             
-            // this is the highlighting portion of the code 
-            var sentences = document.querySelector('#newText');
-            var keywords = document.querySelector('#keywords');
-            
-            keywords.addEventListener('click', function(event){
-    		  var target = event.target;
-   		 	  var text = sentences.textContent;
-   		 	  
-   		 	  var copyText = text;
-   		 	  var targetLength = target.textContent.length;
-   		 	  
-   		 	  var index = copyText.search('('+target.textContent+')');
-   		 	  
-   		 	  while (copyText.length != 0)
-   		 	  {
-   		 	    target = event.target;
-   		 	    index = copyText.search('('+target.textContent+')');
-   		 	    if (index == -1)
-   		 	    {
-   		 	      break;
-   		 	    }
-   		 	  
-   		 	    var startIndex = 0;
-   		 	    var endIndex = 0;
-   		 	    var numWhitespaceSeen = 0;
-   		 	  
-   		 	    // look backwards
-   		 	    for(let i = index - 1; i >= 0; i--)
-   		 	    {
-   		 	      if (copyText[i] == ' ')
-   		 	      {
-   		 	        numWhitespaceSeen++;
-   		 	      
-   		 	        if (numWhitespaceSeen == 3)
-   		 	        {
-   		 	          startIndex = i + 1;
-   		 	          break;
-   		 	        }
-   		 	      }
-   		 	    
-   		 	      if (copyText[i] == '.')
-   		 	      {
-   		 	        startIndex = i + 2;
-   		 	        break;
-   		 	      }
-   		 	    }
-   		 	  
-   		 	    numWhitespaceSeen = 0;
-   		 	  
-   		 	    // look forward
-   		 	    for(let j = index + targetLength; j < copyText.length; j++)
-   		 	    {
-   		 	      if (copyText[j] == ' ')
-   		 	      {
-   		 	        numWhitespaceSeen++;
-   		 	        if (numWhitespaceSeen == 3)
-   		 	        {
-   		 	          endIndex = j;
-   		 	          break;
-   		 	        }
-   		 	      }
-   		 	    
-   		 	      if (copyText[j] == '.')
-   		 	      {
-   		 	        endIndex = j;
-   		 	        break;
-   		 	      }
-   		 	    }
-   		 	  
-   		 	    //console.log("startIndex: ", startIndex);
-   		 	    //console.log("endIndex: ", endIndex);
-   		 	  
-   		 	    target = copyText.substring(startIndex, endIndex);
-   		 	    copyText = copyText.substring(endIndex + 1);
-   		 	    //console.log("target: ", target);
-    		    var regex = new RegExp('('+target+')', 'ig');
-    		    //console.log("regex: ", regex);
-    		    text = text.replace(regex, '<span class="highlight">$1</span>');
-    		    sentences.innerHTML = text;
-    		  }
-			  }, false);
+            // highlight portion of the text
+            highlightKeywords();
 			
           }, function(reason) {
             console.log('Error: ' + reason.result.error.message);
@@ -212,10 +225,28 @@ $(document).ready(function(){
             });
           }).then(function(response) {
             console.log(response.result);
+            
+            var sentencesArray = response.result.sentences;
+            var newText = sentencesArray[0].text.content;
+            newText = newText + " [emotional value = " + sentencesArray[0].sentiment.score + "]\n\n";
+            //console.log("newText = ", newText);
+            
+            for (let i = 1; i < sentencesArray.length; i++)
+            {
+            	newText = newText + sentencesArray[i].text.content + " [emotional value = " + sentencesArray[i].sentiment.score + "]\n\n";
+            }
+            
+            newText = newText + "[total emotional value = " + response.result.documentSentiment.score + "]\n";
+            
+            var sentences = document.querySelector('#newText');
+            console.log("newText: ", newText);
+            
+            sentences.innerHTML = newText;
+
           });
         }
-
-        gapi.load('client', startSentiment);
+        
+        //gapi.load('client', startSentiment);
 
     });
 });
