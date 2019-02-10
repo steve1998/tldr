@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Cinzel|Reenie+Beanie|Sacramento" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet">
+        <link rel="stylesheet" href="public/index.css">
+    </head>
+    <body>
+        <main>
+            <section class="animated fadeIn hero is-mountain is-medium">
+                <div class="hero-body">
+                    <div class="container is-fluid">
+                        <h1 class="animated fadeIn reenie-beanie title has-text-centered has-text-light has-text-weight-light">TL;DR</h1>
+                        <h2 class="animated fadeIn didact subtitle has-text-centered has-text-light has-text-weight-light">important key points!</h2>
+                    </div>
+                </div>
+            </section>
+            <section class="section">
+                <div class="container is-fluid">
+                	<p class="animated fadeIn didact has-text-centered font-really-small">Please only enter paragraphs and sentences, and do not insert new lines.</p>
+                	<p class="animated fadeIn didact has-text-centered font-really-small">Once you click 'submit', there will be a list of keywords on the left, which is sorted by categories, then sorted in descending order of relevance, that you can click to highlight key phrases in your input.</p>	
+                	<br>
+                    <div class="field">
+                        <label for="text" class="animated fadeIn didact label is-size-4 has-text-weight-light has-text-left">Enter your paragraph/sentence here: </label>
+                        <textarea id="text" class="animated fadeIn didact textarea" placeholder="e.g. Hello World"></textarea>
+                        <br>
+                        <button class="animated fadeIn didact button is-pulled-right" id="submit">Submit</button>
+                    </div>
+                </div>
+            </section>
+            <section class="section">
+                <!-- Insert Jquery Here -->
+                <div class="container is-fluid">
+                  <div class="columns" id="answer">
+                  </div>
+                </div>
+            </section>
+        </main>
+        <footer class="animated fadeIn footer">
+            <div class="content has-text-centered">
+                <p>
+                Made with <strong>Bulma</strong>, CSS, JS and &#10084;
+                </p>
+                <p>Images taken from <a href="https://www.pexels.com">Pexels</a></p>
+                <p>Created by Nicholas Steven Darmawan, Vivienne Zing, Jenna Zing, and Celine Liang</p>
+                <p>HackDavis 2019</p>
+            </div>
+        </footer> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script src="public/index.js"></script>
+    </body>
+</html>

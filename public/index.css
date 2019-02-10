@@ -1,0 +1,29 @@
+.cinzel {
+    font-family: 'Cinzel', serif;
+}
+
+.sacramento {
+    font-family: 'Sacramento', cursive;
+}
+
+.reenie-beanie {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 10em;
+}
+
+.didact {
+    font-family: 'Didact Gothic', sans-serif;
+}
+
+.is-mountain {
+    background: url(hero.jpg);
+    background-size: cover;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.font-really-small {
+	font-size: 15px;
+}
